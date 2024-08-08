@@ -49,6 +49,7 @@ function PostContextFn({ children }) {
 }
 const usePosts = () => {
      const context = useContext(PostContext);
+     if (context === undefined) throw new Error('Post Context is used Outside of context Provider')
      return context
 }
 export { PostContextFn, usePosts }
