@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import createRandomPost from "./utils/methods";
 const PostContext = createContext()
 function PostContextFn({ children }) {
@@ -32,8 +32,8 @@ function PostContextFn({ children }) {
           },
           [isFakeDark]
      );
-     return (
-          <PostContext.Provider value={{
+     const value = useMemo(() => {
+          return {
                onClearPosts: handleClearPosts,
                onAddPost: handleAddPost,
                setSearchQuery,
@@ -42,7 +42,11 @@ function PostContextFn({ children }) {
                setIsFakeDark,
                searchedPosts,
                isFakeDark
-          }}>
+          }
+
+     }, [searchedPosts, searchQuery])
+     return (
+          <PostContext.Provider value={value}>
                {children}
           </PostContext.Provider>
      )
